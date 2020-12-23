@@ -15,5 +15,6 @@ module.exports = {
     "import/prefer-default-export": "off",
     'no-plusplus': 'off',
     'comma-dangle': ['error', 'never'],
+    "global-require": 0,
   },
 };

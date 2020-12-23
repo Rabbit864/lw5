@@ -37,6 +37,7 @@ module.exports = {
           "css-loader",
         ],
       },
+      { test: /\.handlebars$/, loader: "handlebars-loader" }
     ],
   },
   devServer: {
