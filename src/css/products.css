@@ -1,0 +1,17 @@
+body {
+  width: 1440px;
+}
+
+.products {
+  margin: 0 auto;
+  border-spacing: 0 10px;
+}
+
+.products__title {
+  padding: 10px 20px;
+}
+
+.products__element {
+  padding: 10px 20px;
+  text-align: center;
+}
