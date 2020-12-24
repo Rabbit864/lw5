@@ -8,8 +8,8 @@
   {{#each productElements}}
   <tr>
     <td class="products__element">{{name}}</td>
-    <td class="products__element">{{count}}</td>
-    <td class="products__element">{{priceForOne}}</td>
+    <td class="products__element"><input type="text" value="{{count}}" readonly></td>
+    <td class="products__element"><input type="text" value="{{priceForOne}}" readonly></td>
   </tr>
   {{/each}}
   <tr>
