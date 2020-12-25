@@ -3,16 +3,6 @@ eslint no-return-assign: "error"
 */
 import productsTemplate from '../template/products.handlebars';
 
-function createObservableArray(array, callback) {
-  return new Proxy(array, {
-    set(target, property, value) {
-      target[property] = value;
-      callback();
-      return true;
-    }
-  });
-}
-
 function getPriceTotal(product) {
   return product.count * product.priceForOne;
 }
@@ -24,34 +14,44 @@ function getAllPrice(products) {
   }
   return sum;
 }
-const productElements = createObservableArray(
-  [
-    {
-      id: 1,
-      name: 'Молоко',
-      count: 40,
-      priceForOne: 50
-    },
-    {
-      id: 2,
-      name: 'Хлеб',
-      count: 100,
-      priceForOne: 20
-    },
-    {
-      id: 3,
-      name: 'Лук',
-      count: 200,
-      priceForOne: 5
-    }
-  ],
-  updateUI
-);
+
+function calculationPriceProduct(products) {
+  products.forEach(
+    (product) => (product.priceTotal = getPriceTotal(product))
+  );
+}
+
+function setCountProduct(product, count) {
+  product.count = count;
+}
+
+function setPriceForOne(product, priceForOne) {
+  product.priceForOne = priceForOne;
+}
+
+const productElements = [
+  {
+    id: 1,
+    name: 'Молоко',
+    count: 40,
+    priceForOne: 50
+  },
+  {
+    id: 2,
+    name: 'Хлеб',
+    count: 100,
+    priceForOne: 20
+  },
+  {
+    id: 3,
+    name: 'Лук',
+    count: 200,
+    priceForOne: 5
+  }
+];
 window.onload = function load() {
   function updateUI() {
-    productElements.forEach(
-      (product) => (product.priceTotal = getPriceTotal(product))
-    );
+    calculationPriceProduct(productElements);
     const allPrice = getAllPrice(productElements);
     const productsHTML = productsTemplate({ productElements, allPrice });
     document.querySelector('body').innerHTML = productsHTML;
@@ -68,7 +68,8 @@ window.onload = function load() {
             const id = +event.target.id.replace('count-', '');
             productElements.forEach((product) => {
               if (product.id === id) {
-                product.count = +event.target.value;
+                setCountProduct(product, +event.target.value);
+                updateUI();
               }
             });
           }
@@ -82,12 +83,16 @@ window.onload = function load() {
             const id = +event.target.id.replace('priceForOne-', '');
             productElements.forEach((product) => {
               if (product.id === id) {
-                product.priceForOne = +event.target.value;
+                setPriceForOne(product, +event.target.value);
+                updateUI();
               }
             });
           }
         });
       });
   }
+
   updateUI();
 };
+
+module.exports = getAllPrice;
