@@ -3,11 +3,41 @@ eslint no-return-assign: "error"
 */
 import productsTemplate from '../template/products.handlebars';
 
+function createObservableArray(array, callback) {
+  return new Proxy(array, {
+    apply(target, thisArg) {
+      callback();
+      return thisArg[target].apply(this, argumentList);
+    },
+    deleteProperty() {
+      callback();
+      return true;
+    },
+    set(target, property, value) {
+      target[property] = value;
+      callback();
+      return true;
+    }
+  });
+}
+
+function createObservableObject(array, callback) {
+  return new Proxy(array, {
+    set(target, property, value) {
+      target[property] = value;
+      if (property === 'count' || property === 'priceForOne') {
+        callback();
+      }
+      return true;
+    }
+  });
+}
+
 function getPriceTotal(product) {
   return product.count * product.priceForOne;
 }
 
-function getAllPrice(products) {
+export function getAllPrice(products) {
   let sum = 0;
   for (let i = 0; i < products.length; i++) {
     sum += getPriceTotal(products[i]);
@@ -29,7 +59,7 @@ function setPriceForOne(product, priceForOne) {
   product.priceForOne = priceForOne;
 }
 
-const productElements = [
+let productElements = [
   {
     id: 1,
     name: 'Молоко',
@@ -69,7 +99,6 @@ window.onload = function load() {
             productElements.forEach((product) => {
               if (product.id === id) {
                 setCountProduct(product, +event.target.value);
-                updateUI();
               }
             });
           }
@@ -84,15 +113,15 @@ window.onload = function load() {
             productElements.forEach((product) => {
               if (product.id === id) {
                 setPriceForOne(product, +event.target.value);
-                updateUI();
               }
             });
           }
         });
       });
   }
-
+  for (let i = 0; i < productElements.length; i++) {
+    productElements[i] = createObservableObject(productElements[i], updateUI);
+  }
+  productElements = createObservableArray(productElements, updateUI);
   updateUI();
 };
-
-module.exports = getAllPrice;
