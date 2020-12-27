@@ -1,4 +1,4 @@
-const getAllPrice = require('../js/products');
+const moduleProduct = require('../js/productsFunctional');
 
 test('check receipt of the whole price of products', () => {
   const productElements = [
@@ -21,5 +21,5 @@ test('check receipt of the whole price of products', () => {
       priceForOne: 5
     }
   ];
-  expect(getAllPrice(productElements)).toBe(5000);
+  expect(moduleProduct.getAllPrice(productElements)).toBe(5000);
 });

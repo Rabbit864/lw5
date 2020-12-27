@@ -1,7 +1,10 @@
-/*
-eslint no-return-assign: "error"
-*/
 import productsTemplate from '../template/products.handlebars';
+import {
+  getAllPrice,
+  calculationPriceProduct,
+  setCountProduct,
+  setPriceForOne
+} from './productsFunctional';
 
 function createObservableArray(array, callback) {
   return new Proxy(array, {
@@ -33,32 +36,6 @@ function createObservableObject(array, callback) {
   });
 }
 
-function getPriceTotal(product) {
-  return product.count * product.priceForOne;
-}
-
-export function getAllPrice(products) {
-  let sum = 0;
-  for (let i = 0; i < products.length; i++) {
-    sum += getPriceTotal(products[i]);
-  }
-  return sum;
-}
-
-function calculationPriceProduct(products) {
-  products.forEach(
-    (product) => (product.priceTotal = getPriceTotal(product))
-  );
-}
-
-function setCountProduct(product, count) {
-  product.count = count;
-}
-
-function setPriceForOne(product, priceForOne) {
-  product.priceForOne = priceForOne;
-}
-
 let productElements = [
   {
     id: 1,
@@ -81,7 +58,7 @@ let productElements = [
 ];
 window.onload = function load() {
   function updateUI() {
-    calculationPriceProduct(productElements);
+    productElements = calculationPriceProduct(productElements);
     const allPrice = getAllPrice(productElements);
     const productsHTML = productsTemplate({ productElements, allPrice });
     document.querySelector('body').innerHTML = productsHTML;
