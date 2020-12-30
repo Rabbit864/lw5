@@ -79,7 +79,7 @@ test('check count setting for products', () => {
   expect(productElements[0].count).toEqual(4);
   expect(productElements[1].count).toEqual(7);
   expect(productElements[2].count).toEqual(10);
-  expect(moduleProduct.setCountProduct(productElements[2], 10)).toBe(true)
+  expect(moduleProduct.setCountProduct(productElements[2], 10)).toBe(true);
 });
 
 test('check count setting for products with negative values', () => {
