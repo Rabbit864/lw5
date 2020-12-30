@@ -15,9 +15,17 @@ export function calculationPriceProduct(products) {
 }
 
 export function setCountProduct(product, count) {
+  if (Number.isNaN(count) || count < 0 || typeof count !== 'number') {
+    return false;
+  }
   product.count = count;
+  return true;
 }
 
 export function setPriceForOne(product, priceForOne) {
+  if (Number.isNaN(priceForOne) || priceForOne < 0 || typeof priceForOne !== 'number') {
+    return false;
+  }
   product.priceForOne = priceForOne;
+  return true;
 }

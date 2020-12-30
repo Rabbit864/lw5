@@ -79,9 +79,38 @@ test('check count setting for products', () => {
   expect(productElements[0].count).toEqual(4);
   expect(productElements[1].count).toEqual(7);
   expect(productElements[2].count).toEqual(10);
+  expect(moduleProduct.setCountProduct(productElements[2], 10)).toBe(true)
 });
 
-test('check count setting for products', () => {
+test('check count setting for products with negative values', () => {
+  const productElements = [
+    {
+      id: 1,
+      name: 'Молоко',
+      count: 40,
+      priceForOne: 50
+    },
+    {
+      id: 2,
+      name: 'Хлеб',
+      count: 100,
+      priceForOne: 20
+    },
+    {
+      id: 3,
+      name: 'Лук',
+      count: 200,
+      priceForOne: 5
+    }
+  ];
+  expect(moduleProduct.setCountProduct(productElements[2], -2)).toBe(false);
+  expect(moduleProduct.setCountProduct(productElements[2], '')).toBe(false);
+  expect(moduleProduct.setCountProduct(productElements[2], {})).toBe(false);
+  expect(moduleProduct.setCountProduct(productElements[2], [])).toBe(false);
+  expect(moduleProduct.setCountProduct(productElements[2], 'hello')).toBe(false);
+});
+
+test('check priceForOne setting for products', () => {
   const productElements = [
     {
       id: 1,
@@ -108,4 +137,32 @@ test('check count setting for products', () => {
   expect(productElements[0].priceForOne).toEqual(12);
   expect(productElements[1].priceForOne).toEqual(5);
   expect(productElements[2].priceForOne).toEqual(75);
+});
+
+test('check priceForOne setting for products with negative values', () => {
+  const productElements = [
+    {
+      id: 1,
+      name: 'Молоко',
+      count: 40,
+      priceForOne: 50
+    },
+    {
+      id: 2,
+      name: 'Хлеб',
+      count: 100,
+      priceForOne: 20
+    },
+    {
+      id: 3,
+      name: 'Лук',
+      count: 200,
+      priceForOne: 5
+    }
+  ];
+  expect(moduleProduct.setPriceForOne(productElements[1], -2)).toBe(false);
+  expect(moduleProduct.setPriceForOne(productElements[1], '')).toBe(false);
+  expect(moduleProduct.setPriceForOne(productElements[1], {})).toBe(false);
+  expect(moduleProduct.setPriceForOne(productElements[1], [])).toBe(false);
+  expect(moduleProduct.setPriceForOne(productElements[1], 'hello')).toBe(false);
 });

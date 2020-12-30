@@ -5,36 +5,10 @@ import {
   setCountProduct,
   setPriceForOne
 } from './productsFunctional';
-
-function createObservableArray(array, callback) {
-  return new Proxy(array, {
-    apply(target, thisArg) {
-      callback();
-      return thisArg[target].apply(this, argumentList);
-    },
-    deleteProperty() {
-      callback();
-      return true;
-    },
-    set(target, property, value) {
-      target[property] = value;
-      callback();
-      return true;
-    }
-  });
-}
-
-function createObservableObject(array, callback) {
-  return new Proxy(array, {
-    set(target, property, value) {
-      target[property] = value;
-      if (property === 'count' || property === 'priceForOne') {
-        callback();
-      }
-      return true;
-    }
-  });
-}
+import {
+  createObservableArray,
+  createObservableObject
+} from '../utils/helpers/core/helper';
 
 let productElements = [
   {
@@ -75,7 +49,10 @@ window.onload = function load() {
             const id = +event.target.id.replace('count-', '');
             productElements.forEach((product) => {
               if (product.id === id) {
-                setCountProduct(product, +event.target.value);
+                const newCount = +event.target.value;
+                if (setCountProduct(product, newCount) === false) {
+                  alert('Введенно не верное значение');
+                }
               }
             });
           }
@@ -89,7 +66,10 @@ window.onload = function load() {
             const id = +event.target.id.replace('priceForOne-', '');
             productElements.forEach((product) => {
               if (product.id === id) {
-                setPriceForOne(product, +event.target.value);
+                const newPrice = +event.target.value;
+                if (setPriceForOne(product, newPrice) === false) {
+                  alert('Введенно не верное значение');
+                }
               }
             });
           }
