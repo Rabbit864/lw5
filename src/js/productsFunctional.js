@@ -6,11 +6,8 @@ export function getPriceTotal(product) {
 }
 
 export function getAllPrice(products) {
-  let sum = 0;
-  for (let i = 0; i < products.length; i++) {
-    sum += getPriceTotal(products[i]);
-  }
-  return sum;
+  const reducer = (accumulator, product) => accumulator + getPriceTotal(product);
+  return products.reduce(reducer, 0);
 }
 
 export function calculationPriceProduct(products) {
