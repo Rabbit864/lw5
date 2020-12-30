@@ -8,7 +8,7 @@ import {
 import {
   createObservableArray,
   createObservableObject
-} from '../utils/helpers/core/helper';
+} from '../utils/helper';
 
 let productElements = [
   {
@@ -32,7 +32,6 @@ let productElements = [
 ];
 window.onload = function load() {
   function updateUI() {
-    productElements = calculationPriceProduct(productElements);
     const allPrice = getAllPrice(productElements);
     const productsHTML = productsTemplate({ productElements, allPrice });
     document.querySelector('body').innerHTML = productsHTML;
@@ -53,6 +52,7 @@ window.onload = function load() {
                 if (setCountProduct(product, newCount) === false) {
                   alert('Введенно не верное значение');
                 }
+                productElements = calculationPriceProduct(productElements);
               }
             });
           }
@@ -70,6 +70,7 @@ window.onload = function load() {
                 if (setPriceForOne(product, newPrice) === false) {
                   alert('Введенно не верное значение');
                 }
+                productElements = calculationPriceProduct(productElements);
               }
             });
           }
@@ -80,5 +81,6 @@ window.onload = function load() {
     productElements[i] = createObservableObject(productElements[i], updateUI);
   }
   productElements = createObservableArray(productElements, updateUI);
+  productElements = calculationPriceProduct(productElements);
   updateUI();
 };

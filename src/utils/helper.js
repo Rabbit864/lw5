@@ -20,9 +20,7 @@ export function createObservableObject(array, callback) {
   return new Proxy(array, {
     set(target, property, value) {
       target[property] = value;
-      if (property === 'count' || property === 'priceForOne') {
-        callback();
-      }
+      callback();
       return true;
     }
   });

@@ -1,4 +1,4 @@
-const moduleHelpers = require('../utils/helpers/core/helper');
+const moduleHelpers = require('../utils/helper');
 
 test('check createObservableObject on Proxy', () => {
   const productElements = [
