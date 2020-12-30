@@ -11,8 +11,7 @@ export function getAllPrice(products) {
 }
 
 export function calculationPriceProduct(products) {
-  products.forEach((product) => (product.priceTotal = getPriceTotal(product)));
-  return products;
+  return products.map((product) => Object.assign(product, { priceTotal: getPriceTotal(product) }));
 }
 
 export function setCountProduct(product, count) {
